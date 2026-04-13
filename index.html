@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<title>Latidos — Clínica Veterinaria Especializada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --blue-900: #0a1628;
+  --blue-800: #0f2040;
+  --blue-700: #143a6b;
+  --blue-600: #1a5296;
+  --blue-500: #2563eb;
+  --blue-400: #3b82f6;
+  --blue-300: #60a5fa;
+  --blue-200: #93c5fd;
+  --blue-100: #dbeafe;
+  --blue-50: #eff6ff;
+  --white: #ffffff;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --accent: #2563eb;
+  --accent-glow: rgba(37, 99, 235, 0.35);
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.06);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.08);
+  --shadow-lg: 0 20px 50px rgba(10,22,40,0.12);
+  --shadow-xl: 0 30px 70px rgba(10,22,40,0.16);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--gray-700);
+  background: var(--white);
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--blue-900); line-height: 1.15; }
+h1 { font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 800; }
+h2 { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 700; }
+h3 { font-size: clamp(1.15rem, 2vw, 1.5rem); font-weight: 700; }
+p { font-size: 1.05rem; }
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section-padding { padding: 100px 0; }
+
+/* ===================== ANIMATIONS ===================== */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(45px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.animate-on-scroll.fade-left { transform: translateX(-45px); }
+.animate-on-scroll.fade-right { transform: translateX(45px); }
+.animate-on-scroll.scale-in { transform: scale(0.92); }
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+.stagger-children .animate-on-scroll:nth-child(1) { transition-delay: 0.08s; }
+.stagger-children .animate-on-scroll:nth-child(2) { transition-delay: 0.16s; }
+.stagger-children .animate-on-scroll:nth-child(3) { transition-delay: 0.24s; }
+.stagger-children .animate-on-scroll:nth-child(4) { transition-delay: 0.32s; }
+.stagger-children .animate-on-scroll:nth-child(5) { transition-delay: 0.40s; }
+.stagger-children .animate-on-scroll:nth-child(6) { transition-delay: 0.48s; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(35px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.93); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
+  50% { box-shadow: 0 0 45px var(--accent-glow); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.floating { animation: float 6s ease-in-out infinite; }
+.floating-delay { animation: float 7s ease-in-out 1.5s infinite; }
+
+/* ===================== NAVBAR ===================== */
+.navbar {
+  position: fixed;
+  top: 14px; left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 1200px;
+  z-index: 1000;
+  padding: 12px 28px;
+  transition: all 0.4s ease;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 30px rgba(10,22,40,0.08), 0 1px 3px rgba(10,22,40,0.04);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.6);
+}
+.navbar.scrolled {
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 10px 28px;
+  box-shadow: 0 8px 32px rgba(10,22,40,0.1), 0 1px 3px rgba(10,22,40,0.06);
+  top: 10px;
+}
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+.logo {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--white);
+  transition: color 0.4s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo .paw-icon {
+  width: 34px; height: 34px;
+}
+.navbar.scrolled .logo { color: var(--blue-900); }
+.navbar.scrolled .logo .paw-icon path { fill: var(--blue-500); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-links a {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a:hover { color: var(--blue-500); }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--blue-500);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+.nav-links a:hover::after { width: 70%; }
+.navbar.scrolled .nav-links a { color: var(--gray-600); }
+.navbar.scrolled .nav-links a:hover { color: var(--blue-500); }
+.navbar.scrolled .nav-links a::after { background: var(--blue-500); }
+.nav-cta {
+  padding: 10px 24px !important;
+  background: var(--blue-500) !important;
+  color: var(--white) !important;
+  border-radius: 50px;
+  font-weight: 700 !important;
+  transition: all 0.3s ease !important;
+}
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+.navbar.scrolled .nav-cta {
+  background: var(--blue-500) !important;
+  color: var(--white) !important;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  z-index: 1001;
+}
+.hamburger span {
+  width: 26px; height: 2.5px;
+  background: var(--blue-900);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.navbar.scrolled .hamburger span { background: var(--blue-900); }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ===================== HERO ===================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--blue-900) 0%, var(--blue-700) 40%, var(--blue-500) 100%);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -30%;
+  width: 900px; height: 900px;
+  background: radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40%; left: -20%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-blob1 {
+  position: absolute;
+  top: 10%; right: 5%;
+  width: 350px; height: 350px;
+  border-radius: 50%;
+  background: rgba(96,165,250,0.08);
+  filter: blur(60px);
+}
+.hero-blob2 {
+  position: absolute;
+  bottom: 15%; left: 8%;
+  width: 250px; height: 250px;
+  border-radius: 50%;
+  background: rgba(147,197,253,0.1);
+  filter: blur(50px);
+}
+.hero .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.hero-content { max-width: 580px; padding-top: 90px; padding-bottom: 60px; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--blue-200);
+  margin-bottom: 24px;
+  animation: fadeInUp 0.8s ease-out 0.1s both;
+}
+.hero-badge .dot {
+  width: 8px; height: 8px;
+  background: #34d399;
+  border-radius: 50%;
+  animation: pulse-glow 2s ease infinite;
+  box-shadow: 0 0 8px #34d399;
+}
+.hero h1 {
+  color: var(--white);
+  margin-bottom: 20px;
+  animation: fadeInUp 0.8s ease-out 0.25s both;
+}
+.hero h1 span {
+  background: linear-gradient(135deg, var(--blue-200), var(--blue-300));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 36px;
+  line-height: 1.8;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease-out 0.55s both;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 34px;
+  border-radius: 50px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-primary {
+  background: var(--white);
+  color: var(--blue-900);
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255,255,255,0.25);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid rgba(255,255,255,0.3);
+}
+.btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-3px);
+}
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInScale 1s ease-out 0.7s both;
+}
+.hero-img-wrapper {
+  position: relative;
+  width: 460px; height: 460px;
+}
+.hero-img-wrapper img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+}
+.hero-floating-card {
+  position: absolute;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-lg);
+}
+.hero-floating-card.card1 {
+  top: -15px; left: -40px;
+  animation: float 5s ease-in-out infinite;
+}
+.hero-floating-card.card2 {
+  bottom: 30px; right: -35px;
+  animation: float 6s ease-in-out 1s infinite;
+}
+.hfc-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.hfc-icon.blue { background: var(--blue-100); color: var(--blue-500); }
+.hfc-icon.green { background: #d1fae5; color: #059669; }
+.hfc-text { font-size: 0.82rem; font-weight: 700; color: var(--blue-900); }
+.hfc-sub { font-size: 0.75rem; color: var(--gray-400); font-weight: 500; }
+
+/* ===================== SECTION HEADERS ===================== */
+.section-header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 60px;
+}
+.section-label {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--blue-500);
+  margin-bottom: 14px;
+  padding: 6px 16px;
+  background: var(--blue-50);
+  border-radius: 50px;
+}
+.section-header p {
+  color: var(--gray-500);
+  margin-top: 16px;
+  font-size: 1.08rem;
+}
+
+/* ===================== ABOUT ===================== */
+.about { background: var(--white); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: center;
+}
+.about-image {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.about-image img {
+  width: 100%; height: 450px;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.about-accent {
+  position: absolute;
+  bottom: -15px; right: -15px;
+  width: 200px; height: 200px;
+  border: 4px solid var(--blue-200);
+  border-radius: var(--radius);
+  z-index: -1;
+}
+.about-content h2 { margin-bottom: 20px; }
+.about-content p { margin-bottom: 16px; color: var(--gray-500); }
+.about-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 28px;
+}
+.about-feat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--blue-900);
+}
+.about-feat svg {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  color: var(--blue-500);
+}
+
+/* ===================== SERVICES ===================== */
+.services { background: var(--gray-50); }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.service-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 36px 30px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--gray-200);
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--blue-400), var(--blue-600));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.service-card:hover::before { transform: scaleX(1); }
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+  border-color: transparent;
+}
+.service-icon {
+  width: 60px; height: 60px;
+  border-radius: 14px;
+  background: var(--blue-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  transition: all 0.3s ease;
+}
+.service-card:hover .service-icon {
+  background: var(--blue-500);
+}
+.service-icon svg {
+  width: 28px; height: 28px;
+  color: var(--blue-500);
+  transition: color 0.3s;
+}
+.service-card:hover .service-icon svg { color: var(--white); }
+.service-card h3 { margin-bottom: 12px; }
+.service-card p { color: var(--gray-500); font-size: 0.95rem; }
+
+/* ===================== INSTALLATIONS ===================== */
+.installations { background: var(--white); }
+.installations-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.install-card {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: 320px;
+  cursor: pointer;
+}
+.install-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.install-card:hover img { transform: scale(1.08); }
+.install-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,22,40,0.85) 0%, transparent 60%);
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+  transition: background 0.3s;
+}
+.install-card:hover .install-overlay {
+  background: linear-gradient(to top, rgba(37,99,235,0.85) 0%, transparent 70%);
+}
+.install-overlay h3 {
+  color: var(--white);
+  font-size: 1.1rem;
+}
+.install-overlay p {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+/* ===================== PROCESS ===================== */
+.process { background: linear-gradient(160deg, var(--blue-900) 0%, var(--blue-700) 100%); }
+.process .section-label { background: rgba(255,255,255,0.1); color: var(--blue-200); }
+.process .section-header h2 { color: var(--white); }
+.process .section-header p { color: rgba(255,255,255,0.6); }
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  position: relative;
+}
+.process-steps::before {
+  content: '';
+  position: absolute;
+  top: 42px; left: 10%; right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue-400), transparent);
+}
+.step-card {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.step-num {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid var(--blue-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--blue-300);
+  margin: 0 auto 20px;
+  transition: all 0.3s;
+}
+.step-card:hover .step-num {
+  background: var(--blue-500);
+  color: var(--white);
+  border-color: var(--blue-500);
+  transform: scale(1.1);
+}
+.step-card h3 { color: var(--white); font-size: 1.05rem; margin-bottom: 8px; }
+.step-card p { color: rgba(255,255,255,0.55); font-size: 0.88rem; }
+
+/* ===================== TEAM ===================== */
+.team { background: var(--gray-50); }
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.team-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  border: 1px solid var(--gray-200);
+}
+.team-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+.team-card img {
+  width: 100%; height: 300px;
+  object-fit: cover;
+}
+.team-info {
+  padding: 24px;
+  text-align: center;
+}
+.team-info h3 { margin-bottom: 4px; }
+.team-role {
+  font-size: 0.88rem;
+  color: var(--blue-500);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.team-info p { font-size: 0.9rem; color: var(--gray-500); }
+
+/* ===================== STATS ===================== */
+.stats {
+  background: var(--white);
+  padding: 80px 0;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+.stat-card {
+  text-align: center;
+  padding: 36px 20px;
+  border-radius: var(--radius);
+  background: var(--blue-50);
+  transition: all 0.3s ease;
+}
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+.stat-number {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 800;
+  color: var(--blue-500);
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  font-weight: 600;
+}
+
+/* ===================== WHY US ===================== */
+.why-us { background: var(--gray-50); }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.why-card {
+  display: flex;
+  gap: 20px;
+  padding: 30px;
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+  transition: all 0.35s ease;
+}
+.why-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--blue-200);
+}
+.why-icon {
+  flex-shrink: 0;
+  width: 54px; height: 54px;
+  border-radius: 12px;
+  background: var(--blue-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.why-icon svg { width: 26px; height: 26px; color: var(--blue-500); }
+.why-card h3 { margin-bottom: 6px; font-size: 1.1rem; }
+.why-card p { color: var(--gray-500); font-size: 0.93rem; }
+
+/* ===================== TESTIMONIALS ===================== */
+.testimonials { background: var(--white); }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.testimonial-card {
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  padding: 32px;
+  border: 1px solid var(--gray-200);
+  transition: all 0.35s ease;
+}
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+.stars {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 16px;
+}
+.stars svg { width: 18px; height: 18px; color: #f59e0b; fill: #f59e0b; }
+.testimonial-card blockquote {
+  font-size: 0.95rem;
+  color: var(--gray-600);
+  font-style: italic;
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.testimonial-author img {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.author-name { font-weight: 700; font-size: 0.92rem; color: var(--blue-900); }
+.author-pet { font-size: 0.82rem; color: var(--gray-400); }
+
+/* ===================== FAQ ===================== */
+.faq { background: var(--gray-50); }
+.faq-grid {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.faq-item {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.faq-item:hover { border-color: var(--blue-200); }
+.faq-question {
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--blue-900);
+  transition: color 0.3s;
+}
+.faq-question:hover { color: var(--blue-500); }
+.faq-icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--blue-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.faq-item.active .faq-icon {
+  background: var(--blue-500);
+  transform: rotate(180deg);
+}
+.faq-icon svg { width: 16px; height: 16px; color: var(--blue-500); }
+.faq-item.active .faq-icon svg { color: var(--white); }
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+.faq-item.active .faq-answer {
+  max-height: 300px;
+  padding: 0 28px 22px;
+}
+.faq-answer p { color: var(--gray-500); font-size: 0.95rem; }
+
+/* ===================== BLOG ===================== */
+.blog { background: var(--white); }
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.blog-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  transition: all 0.4s ease;
+}
+.blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+.blog-card img {
+  width: 100%; height: 200px;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.5s ease;
+}
+.blog-card:hover img { transform: scale(1.05); }
+.blog-img-wrap { overflow: hidden; }
+.blog-body { padding: 24px; }
+.blog-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--blue-500);
+  background: var(--blue-50);
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.blog-body h3 { margin-bottom: 8px; font-size: 1.12rem; }
+.blog-body p { color: var(--gray-500); font-size: 0.9rem; }
+.blog-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--blue-500);
+  margin-top: 14px;
+  transition: gap 0.3s;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+}
+.blog-link:hover { gap: 10px; }
+.blog-link svg { transition: transform 0.3s ease; }
+.blog-link.active svg { transform: rotate(180deg); }
+.blog-expandable {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+.blog-expandable.open {
+  max-height: 2000px;
+}
+.blog-expandable-content {
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-200);
+  margin-top: 16px;
+}
+.blog-expandable-content h4 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: var(--blue-900);
+}
+.blog-expandable-content p,
+.blog-expandable-content li {
+  font-size: 0.92rem;
+  color: var(--gray-600);
+  line-height: 1.7;
+}
+.blog-expandable-content ul {
+  padding-left: 20px;
+  list-style: disc;
+  margin-bottom: 14px;
+}
+.blog-expandable-content ul li {
+  margin-bottom: 6px;
+}
+
+/* ===================== CONTACT ===================== */
+.contact {
+  background: var(--gray-50);
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+.contact-info h2 { margin-bottom: 16px; }
+.contact-info > p { color: var(--gray-500); margin-bottom: 32px; }
+.contact-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.contact-item-icon {
+  width: 50px; height: 50px;
+  border-radius: 12px;
+  background: var(--blue-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.contact-item-icon svg { width: 22px; height: 22px; color: var(--blue-500); }
+.contact-item-text h4 { font-size: 0.95rem; margin-bottom: 2px; }
+.contact-item-text p { color: var(--gray-500); font-size: 0.92rem; }
+.contact-schedule {
+  margin-top: 28px;
+  padding: 20px;
+  background: var(--blue-50);
+  border-radius: var(--radius-sm);
+}
+.contact-schedule h4 {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  color: var(--blue-900);
+}
+.schedule-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding: 4px 0;
+  color: var(--gray-500);
+}
+.contact-map {
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: 100%;
+  min-height: 450px;
+  box-shadow: var(--shadow-md);
+}
+.contact-map iframe {
+  width: 100%; height: 100%;
+  border: none;
+}
+
+/* ===================== CTA SECTION ===================== */
+.cta-section {
+  background: linear-gradient(160deg, var(--blue-900) 0%, var(--blue-600) 100%);
+  text-align: center;
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: rgba(96,165,250,0.1);
+  filter: blur(60px);
+}
+.cta-section h2 {
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.cta-section p {
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 32px;
+  font-size: 1.1rem;
+}
+.btn-cta {
+  padding: 18px 42px;
+  background: var(--white);
+  color: var(--blue-900);
+  border-radius: 50px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: all 0.35s ease;
+  animation: pulse-glow 3s ease infinite;
+}
+.btn-cta:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 15px 40px rgba(255,255,255,0.2);
+}
+
+/* ===================== FOOTER ===================== */
+.footer {
+  background: var(--gray-100);
+  padding: 60px 0 30px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+.footer-brand .logo { color: var(--blue-900); margin-bottom: 14px; }
+.footer-brand p { color: var(--gray-500); font-size: 0.92rem; }
+.footer-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+.footer-social {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.footer-social:hover { background: var(--blue-500); transform: translateY(-3px); }
+.footer-social:hover svg { color: var(--white); }
+.footer-social svg { width: 18px; height: 18px; color: var(--gray-500); }
+.footer h4 {
+  color: var(--blue-900);
+  font-size: 1rem;
+  margin-bottom: 18px;
+}
+.footer ul li { margin-bottom: 10px; }
+.footer ul a {
+  color: var(--gray-500);
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+.footer ul a:hover { color: var(--blue-500); }
+.footer-bottom {
+  border-top: 1px solid var(--gray-200);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-bottom p { color: var(--gray-400); font-size: 0.85rem; }
+
+/* ===================== WHATSAPP FLOAT ===================== */
+.whatsapp-float {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  width: 62px; height: 62px;
+  border-radius: 50%;
+  background: #25d366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba(37,211,102,0.4);
+  z-index: 999;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 30px rgba(37,211,102,0.5);
+}
+.whatsapp-float svg { width: 32px; height: 32px; color: white; }
+.whatsapp-tooltip {
+  position: absolute;
+  right: 72px;
+  background: var(--white);
+  padding: 10px 16px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--blue-900);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s;
+  pointer-events: none;
+}
+.whatsapp-float:hover .whatsapp-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 1024px) {
+  .hero .container { grid-template-columns: 1fr; text-align: center; }
+  .hero-content { max-width: 100%; }
+  .hero-buttons { justify-content: center; }
+  .hero-visual { display: none; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .installations-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-steps { grid-template-columns: repeat(3, 1fr); }
+  .process-steps::before { display: none; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .nav-links { 
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,22,40,0.97);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+  .nav-links.active { display: flex; }
+  .nav-links a { font-size: 1.2rem; color: var(--white) !important; }
+  .hamburger { display: flex; }
+  .section-padding { padding: 70px 0; }
+  .services-grid, .blog-grid, .testimonials-grid { grid-template-columns: 1fr; }
+  .installations-grid { grid-template-columns: 1fr 1fr; }
+  .process-steps { grid-template-columns: repeat(2, 1fr); }
+  .step-card:last-child { grid-column: span 2; }
+  .team-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-map { min-height: 300px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .installations-grid { grid-template-columns: 1fr; }
+  .process-steps { grid-template-columns: 1fr; }
+  .step-card:last-child { grid-column: span 1; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .about-features { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a href="#" class="logo">
+      <img src="img/Logo.png" alt="Latidos" class="logo-img" style="height: 40px; width: auto;">
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">Nosotros</a>
+      <a href="#services">Servicios</a>
+      <a href="#installations">Instalaciones</a>
+      <a href="#team">Equipo</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contacto</a>
+      <a href="#contact" class="nav-cta">Agendar Cita</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-blob1 floating"></div>
+  <div class="hero-blob2 floating-delay"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span> Clínica Veterinaria Especializada</div>
+      <h1>El mejor cuidado clínico para <span>tu mejor amigo</span></h1>
+      <p class="hero-desc">Somos una clínica veterinaria de alto nivel con quirófano equipado, ecografía diagnóstica, hospitalización y atención especializada exclusivamente para perros y gatos.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Agendar Cita
+        </a>
+        <a href="#services" class="btn btn-outline">Conocer Servicios</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-wrapper">
+        <img src="img/hero-perros.jpg" alt="Perros felices">
+        <div class="hero-floating-card card1">
+          <div class="hfc-icon blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div>
+            <div class="hfc-text">Quirófano Equipado</div>
+            <div class="hfc-sub">Cirugía de alta complejidad</div>
+          </div>
+        </div>
+        <div class="hero-floating-card card2">
+          <div class="hfc-icon green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div>
+            <div class="hfc-text">+2,000 Pacientes</div>
+            <div class="hfc-sub">Atendidos con éxito</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about section-padding" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image animate-on-scroll fade-left">
+        <img src="img/about-perro-gato.png" alt="Perro y gato juntos">
+        <div class="about-accent"></div>
+      </div>
+      <div class="about-content animate-on-scroll fade-right">
+        <span class="section-label">Sobre Nosotros</span>
+        <h2>Más que una veterinaria,<br>un centro clínico de verdad</h2>
+        <p>En <strong>Latidos</strong> no somos un consultorio más. Somos una clínica veterinaria con infraestructura hospitalaria real, diseñada para ofrecer diagnóstico preciso, cirugía segura y recuperación monitoreada para perros y gatos.</p>
+        <p>Contamos con quirófano completamente equipado, equipo de ecografía profesional, sala de hospitalización con monitoreo constante y sala de visitas para que puedas acompañar a tu mascota durante su recuperación.</p>
+        <div class="about-features">
+          <div class="about-feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Quirófano completo
+          </div>
+          <div class="about-feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Ecografía diagnóstica
+          </div>
+          <div class="about-feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Hospitalización 24/7
+          </div>
+          <div class="about-feat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Sala de visitas
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services section-padding" id="services">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Servicios</span>
+      <h2>Atención clínica especializada para tu mascota</h2>
+      <p>Ofrecemos servicios médicos veterinarios de alto nivel con equipos de última generación y un equipo profesional comprometido.</p>
+    </div>
+    <div class="services-grid stagger-children">
+      <div class="service-card animate-on-scroll">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3>Cirugía General y Especializada</h3>
+        <p>Quirófano completamente equipado con instrumentos de alta precisión para cirugías de tejidos blandos, ortopedia, oftalmología y más.</p>
+      </div>
+      <div class="service-card animate-on-scroll">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Ecografía Diagnóstica</h3>
+        <p>Diagnóstico por imagen en tiempo real para evaluar órganos internos, detectar patologías y guiar tratamientos con precisión.</p>
+      </div>
+      <div class="service-card animate-on-scroll">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>Hospitalización</h3>
+        <p>Sala de hospitalización con monitoreo constante, atención 24 horas y cuidados post-operatorios para una recuperación segura.</p>
+      </div>
+      <div class="service-card animate-on-scroll">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3>Consulta Veterinaria</h3>
+        <p>Evaluación clínica completa, diagnóstico profesional y plan de tratamiento personalizado para cada paciente.</p>
+      </div>
+      <div class="service-card animate-on-scroll">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <h3>Sala de Visitas</h3>
+        <p>Espacio dedicado para que visites a tu mascota durante su hospitalización. Tu compañía es parte de su recuperación.</p>
+      </div>
+      <div class="service-card animate-on-scroll">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3>Urgencias y Emergencias</h3>
+        <p>Atención de emergencia con respuesta inmediata. Estamos preparados para actuar rápido cuando tu mascota más lo necesita.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALLATIONS -->
+<section class="installations section-padding" id="installations">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Instalaciones</span>
+      <h2>Infraestructura clínica de primer nivel</h2>
+      <p>Conoce nuestras instalaciones diseñadas para brindar el más alto estándar de atención veterinaria.</p>
+    </div>
+    <div class="installations-grid stagger-children">
+      <div class="install-card animate-on-scroll">
+        <img src="img/quirofano.jpg" alt="Quirófano veterinario">
+        <div class="install-overlay">
+          <div>
+            <h3>Quirófano</h3>
+            <p>Equipado con instrumentos de última generación</p>
+          </div>
+        </div>
+      </div>
+      <div class="install-card animate-on-scroll">
+        <img src="img/ecografia.jpg" alt="Ecografía veterinaria">
+        <div class="install-overlay">
+          <div>
+            <h3>Sala de Ecografía</h3>
+            <p>Diagnóstico por imagen en tiempo real</p>
+          </div>
+        </div>
+      </div>
+      <div class="install-card animate-on-scroll">
+        <img src="img/hospitalizacion.jpg" alt="Sala de hospitalización">
+        <div class="install-overlay">
+          <div>
+            <h3>Hospitalización</h3>
+            <p>Monitoreo constante las 24 horas</p>
+          </div>
+        </div>
+      </div>
+      <div class="install-card animate-on-scroll">
+        <img src="img/sala-visitas.jpg" alt="Sala de visitas">
+        <div class="install-overlay">
+          <div>
+            <h3>Sala de Visitas</h3>
+            <p>Espacio para acompañar a tu mascota</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process section-padding" id="process">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Proceso</span>
+      <h2>¿Cómo funciona nuestra atención?</h2>
+      <p>Un proceso profesional y transparente de principio a fin para que sepas exactamente cómo cuidamos a tu mascota.</p>
+    </div>
+    <div class="process-steps stagger-children">
+      <div class="step-card animate-on-scroll">
+        <div class="step-num">1</div>
+        <h3>Agenda tu Cita</h3>
+        <p>Contáctanos por WhatsApp o teléfono para reservar tu consulta.</p>
+      </div>
+      <div class="step-card animate-on-scroll">
+        <div class="step-num">2</div>
+        <h3>Consulta y Diagnóstico</h3>
+        <p>Evaluación clínica completa y examen físico detallado.</p>
+      </div>
+      <div class="step-card animate-on-scroll">
+        <div class="step-num">3</div>
+        <h3>Exámenes</h3>
+        <p>Ecografía, laboratorio y las pruebas que se necesiten.</p>
+      </div>
+      <div class="step-card animate-on-scroll">
+        <div class="step-num">4</div>
+        <h3>Tratamiento</h3>
+        <p>Cirugía, medicación o el protocolo más adecuado.</p>
+      </div>
+      <div class="step-card animate-on-scroll">
+        <div class="step-num">5</div>
+        <h3>Seguimiento</h3>
+        <p>Control post-operatorio y acompañamiento hasta la recuperación total.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team section-padding" id="team">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Equipo Médico</span>
+      <h2>Profesionales que aman lo que hacen</h2>
+      <p>Nuestro equipo de veterinarios combina experiencia clínica con pasión genuina por el bienestar animal.</p>
+    </div>
+    <div class="team-grid stagger-children">
+      <div class="team-card animate-on-scroll">
+        <img src="img/dr-david-fonseca.jpg" alt="Dr. David Fonseca">
+        <div class="team-info">
+          <h3>Dr. David Fonseca</h3>
+          <div class="team-role">Médico Cirujano Veterinario</div>
+          <p>Especialista en cirugía veterinaria con amplia experiencia en procedimientos de alta complejidad para perros y gatos.</p>
+        </div>
+      </div>
+      <div class="team-card animate-on-scroll">
+        <img src="img/dra-lorena-galvis.jpg" alt="Dra. Lorena Galvis">
+        <div class="team-info">
+          <h3>Dra. Lorena Galvis</h3>
+          <div class="team-role">Médica Veterinaria Internista</div>
+          <p>Experta en medicina interna veterinaria, diagnóstico por imagen y tratamiento de patologías complejas en caninos y felinos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats" id="stats">
+  <div class="container">
+    <div class="stats-grid stagger-children">
+      <div class="stat-card animate-on-scroll">
+        <div class="stat-number" data-target="10" data-suffix="+">0</div>
+        <div class="stat-label">Años de Experiencia</div>
+      </div>
+      <div class="stat-card animate-on-scroll">
+        <div class="stat-number" data-target="2500" data-suffix="+">0</div>
+        <div class="stat-label">Pacientes Atendidos</div>
+      </div>
+      <div class="stat-card animate-on-scroll">
+        <div class="stat-number" data-target="800" data-suffix="+">0</div>
+        <div class="stat-label">Cirugías Realizadas</div>
+      </div>
+      <div class="stat-card animate-on-scroll">
+        <div class="stat-number" data-target="98" data-suffix="%">0</div>
+        <div class="stat-label">Satisfacción de Clientes</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-us section-padding" id="whyus">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">¿Por qué elegirnos?</span>
+      <h2>Lo que nos hace diferentes</h2>
+      <p>No somos una veterinaria más. Somos un centro clínico diseñado para ofrecer atención médica real y de calidad.</p>
+    </div>
+    <div class="why-grid stagger-children">
+      <div class="why-card animate-on-scroll">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div>
+          <h3>Quirófano de Alta Complejidad</h3>
+          <p>Sala de cirugía equipada con instrumental completo para procedimientos de todo tipo, desde esterilizaciones hasta cirugías ortopédicas.</p>
+        </div>
+      </div>
+      <div class="why-card animate-on-scroll">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div>
+          <h3>Diagnóstico por Imagen</h3>
+          <p>Equipo de ecografía profesional para diagnósticos precisos en tiempo real, sin necesidad de remitir a otro centro.</p>
+        </div>
+      </div>
+      <div class="why-card animate-on-scroll">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <h3>Hospitalización con Monitoreo 24/7</h3>
+          <p>Tu mascota permanece bajo vigilancia constante durante su recuperación, con personal capacitado las 24 horas.</p>
+        </div>
+      </div>
+      <div class="why-card animate-on-scroll">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div>
+          <h3>Enfoque 100% Clínico</h3>
+          <p>Nos dedicamos exclusivamente a la salud de tu mascota. Sin peluquería, sin distracciones — solo medicina veterinaria de calidad.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials section-padding" id="testimonials">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Testimonios</span>
+      <h2>Lo que dicen nuestros clientes</h2>
+      <p>La confianza de nuestros pacientes y sus familias es nuestro mayor orgullo.</p>
+    </div>
+    <div class="testimonials-grid stagger-children">
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote>"Mi perrita Luna necesitaba una cirugía de emergencia y en Latidos la atendieron de inmediato. El equipo fue increíble y la recuperación fue excelente. Eternamente agradecida."</blockquote>
+        <div class="testimonial-author">
+          <img src="img/avatar-carolina.jpg" alt="Paola M.">
+          <div>
+            <div class="author-name">Paola M.</div>
+            <div class="author-pet">Dueña de Luna — Golden Retriever</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote>"Mi perra Princesa siempre recibe la mejor atención en Latidos. El equipo es muy profesional y cariñoso con ella. No la llevaría a otro lugar."</blockquote>
+        <div class="testimonial-author">
+          <img src="img/avatar-andres.jpg" alt="Sebastián C.">
+          <div>
+            <div class="author-name">Sebastián C.</div>
+            <div class="author-pet">Dueño de Princesa</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote>"Poder visitar a Rocky mientras estaba hospitalizado fue lo que más me tranquilizó. La sala de visitas es un detalle que muestra cuánto les importa el bienestar emocional de todos."</blockquote>
+        <div class="testimonial-author">
+          <img src="img/avatar-mariajose.jpg" alt="Laurens C.">
+          <div>
+            <div class="author-name">Laurens C.</div>
+            <div class="author-pet">Dueña de Rocky — Bulldog Francés</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq section-padding" id="faq">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Preguntas Frecuentes</span>
+      <h2>¿Tienes dudas? Te ayudamos</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          ¿Qué hago en caso de emergencia?
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Contáctanos inmediatamente por WhatsApp o teléfono. Contamos con servicio de urgencias y un equipo preparado para actuar de manera rápida y eficiente ante cualquier emergencia.</p></div>
+      </div>
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          ¿Puedo visitar a mi mascota mientras está hospitalizada?
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>¡Por supuesto! Contamos con una sala de visitas especialmente diseñada para que puedas estar con tu mascota. Creemos que tu compañía es parte fundamental de su recuperación.</p></div>
+      </div>
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          ¿Qué tipos de cirugía realizan?
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Realizamos cirugías de tejidos blandos, ortopedia, cirugía abdominal, esterilizaciones, extracción de tumores, cirugía de emergencia y más. Nuestro quirófano está equipado para procedimientos de alta complejidad.</p></div>
+      </div>
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          ¿Necesito cita previa para consulta?
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Sí, recomendamos agendar cita previa para garantizar una atención dedicada y sin largas esperas. Puedes hacerlo por WhatsApp, teléfono o a través de nuestra página. Para emergencias, atendemos sin cita.</p></div>
+      </div>
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          ¿Atienden solo perros y gatos?
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Sí, somos una clínica especializada exclusivamente en perros y gatos. Esto nos permite concentrar toda nuestra experiencia y equipos en brindar la mejor atención para estas especies.</p></div>
+      </div>
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          ¿Ofrecen servicio de peluquería o estética?
+          <div class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>No. En Latidos nos enfocamos al 100% en servicios médicos y clínicos. No ofrecemos peluquería ni estética. Nuestra especialidad es la salud de tu mascota: diagnóstico, cirugía, hospitalización y tratamiento.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG / TIPS -->
+<section class="blog section-padding" id="blog">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Blog & Tips</span>
+      <h2>Consejos para el cuidado de tu mascota</h2>
+      <p>Información útil de nuestros profesionales para que cuides mejor a tu compañero de vida.</p>
+    </div>
+    <div class="blog-grid stagger-children">
+      <div class="blog-card animate-on-scroll">
+        <div class="blog-img-wrap">
+          <img src="img/blog-ecografia.jpg" alt="Blog ecografía">
+        </div>
+        <div class="blog-body">
+          <span class="blog-tag">Diagnóstico</span>
+          <h3>5 señales de que tu mascota necesita una ecografía</h3>
+          <p>Aprende a identificar síntomas que podrían indicar la necesidad de un diagnóstico por imagen.</p>
+          <button class="blog-link" onclick="toggleBlog(this)">Leer más <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="blog-expandable">
+            <div class="blog-expandable-content">
+              <h4>1. Vómitos persistentes</h4>
+              <p>Si tu mascota vomita de forma recurrente sin causa aparente, una ecografía permite visualizar el estómago e intestinos para descartar obstrucciones, cuerpos extraños o inflamación crónica.</p>
+              <h4>2. Abdomen hinchado</h4>
+              <p>Un abdomen distendido puede indicar acumulación de líquido, tumores internos o problemas en órganos como el hígado o el bazo. La ecografía es clave para un diagnóstico preciso.</p>
+              <h4>3. Dolor al orinar</h4>
+              <p>Dificultad, sangre en la orina o intentos frecuentes sin éxito pueden señalar cálculos, infecciones o problemas en vejiga y riñones que la ecografía detecta de forma no invasiva.</p>
+              <h4>4. Pérdida de peso inexplicable</h4>
+              <p>Cuando tu mascota pierde peso sin cambios en su dieta, puede haber un problema interno. La ecografía ayuda a evaluar órganos abdominales y detectar masas o alteraciones.</p>
+              <h4>5. Problemas reproductivos</h4>
+              <p>Seguimiento de gestación, detección de piometra (infección uterina) o evaluación de ovarios y útero. La ecografía es fundamental en salud reproductiva veterinaria.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card animate-on-scroll">
+        <div class="blog-img-wrap">
+          <img src="img/blog-cirugia.png" alt="Blog cirugía">
+        </div>
+        <div class="blog-body">
+          <span class="blog-tag">Cirugía</span>
+          <h3>Cómo preparar a tu perro para una cirugía</h3>
+          <p>Todo lo que necesitas saber antes, durante y después del procedimiento quirúrgico.</p>
+          <button class="blog-link" onclick="toggleBlog(this)">Leer más <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="blog-expandable">
+            <div class="blog-expandable-content">
+              <h4>Antes de la cirugía</h4>
+              <ul>
+                <li><strong>Consulta pre-quirúrgica:</strong> Exámenes de sangre y evaluación general para asegurar que tu perro está apto para la anestesia.</li>
+                <li><strong>Ayuno:</strong> Generalmente se requiere ayuno de 8-12 horas antes del procedimiento para evitar complicaciones con la anestesia.</li>
+                <li><strong>Baño previo:</strong> Baña a tu perro el día anterior, ya que no podrá mojarse durante la recuperación.</li>
+              </ul>
+              <h4>Durante la cirugía</h4>
+              <ul>
+                <li><strong>Qué pasa en el quirófano:</strong> Tu mascota estará bajo anestesia general, monitorizada constantemente con equipos especializados.</li>
+                <li><strong>Equipo profesional:</strong> Cirujano, anestesiólogo y asistentes trabajan en conjunto para garantizar la seguridad del procedimiento.</li>
+              </ul>
+              <h4>Después de la cirugía</h4>
+              <ul>
+                <li><strong>Primeras 24 horas:</strong> Mantén a tu perro en un lugar tranquilo y cálido. Es normal que esté somnoliento por la anestesia.</li>
+                <li><strong>Alimentación:</strong> Ofrece comida blanda en porciones pequeñas según las indicaciones del veterinario.</li>
+                <li><strong>Cuidado de la herida:</strong> Usa collar isabelino para evitar que se lama los puntos. Revisa diariamente que no haya enrojecimiento o secreción.</li>
+                <li><strong>Medicamentos:</strong> Administra analgésicos y antibióticos según la prescripción, sin saltarte ninguna dosis.</li>
+                <li><strong>Señales de alarma:</strong> Consulta de inmediato si hay fiebre, sangrado excesivo, vómitos persistentes o si la herida se abre.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card animate-on-scroll">
+        <div class="blog-img-wrap">
+          <img src="img/blog-emergencias.jpg" alt="Blog emergencias gato">
+        </div>
+        <div class="blog-body">
+          <span class="blog-tag">Emergencias</span>
+          <h3>¿Cuándo llevar a tu gato a urgencias?</h3>
+          <p>Señales de alarma que no puedes ignorar y que requieren atención veterinaria inmediata.</p>
+          <button class="blog-link" onclick="toggleBlog(this)">Leer más <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="blog-expandable">
+            <div class="blog-expandable-content">
+              <h4>6 emergencias que requieren atención inmediata</h4>
+              <ul>
+                <li><strong>Dificultad para respirar:</strong> Respiración con la boca abierta, jadeo excesivo o esfuerzo visible al respirar.</li>
+                <li><strong>Obstrucción urinaria:</strong> Si tu gato intenta orinar sin éxito, especialmente en machos. Puede ser mortal en pocas horas.</li>
+                <li><strong>Trauma o accidente:</strong> Caídas desde altura, atropellos o golpes fuertes, incluso si parece estar bien externamente.</li>
+                <li><strong>Convulsiones:</strong> Movimientos involuntarios, pérdida de conciencia o rigidez corporal repentina.</li>
+                <li><strong>Ingestión de tóxicos:</strong> Plantas, medicamentos humanos, productos de limpieza o alimentos como chocolate, cebolla o uvas.</li>
+                <li><strong>Sangrado activo:</strong> Cualquier hemorragia que no se detenga en pocos minutos requiere atención urgente.</li>
+              </ul>
+              <h4>Señales de consulta urgente (no inmediata)</h4>
+              <ul>
+                <li>Falta de apetito por más de 24 horas</li>
+                <li>Letargo extremo o esconderse más de lo habitual</li>
+                <li>Vómitos o diarrea con sangre</li>
+                <li>Cojera repentina o dolor al moverse</li>
+              </ul>
+              <h4>Qué hacer camino a la clínica</h4>
+              <p>Mantén la calma, transporta a tu gato en un guacal seguro, mantén el ambiente silencioso y evita alimentarlo. Si hay sangrado, aplica presión suave con un paño limpio.</p>
+              <h4>Prevención</h4>
+              <p>Mantén tu hogar libre de plantas tóxicas, asegura ventanas y balcones, guarda medicamentos fuera de su alcance y realiza chequeos veterinarios periódicos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT + MAP -->
+<section class="contact section-padding" id="contact">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <span class="section-label">Contacto</span>
+      <h2>Estamos aquí para tu mascota</h2>
+      <p>Agenda tu cita o visítanos. Estaremos encantados de atenderte.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info animate-on-scroll fade-left">
+        <div class="contact-item">
+          <div class="contact-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-item-text">
+            <h4>Dirección</h4>
+            <p>Cl. 61a Sur #94 - 23, Bosa, Bogotá, Cundinamarca</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div class="contact-item-text">
+            <h4>Teléfono</h4>
+            <p>+57 311 512 2628</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="contact-item-text">
+            <h4>Email</h4>
+            <p>contacto@latidos.com.co</p>
+          </div>
+        </div>
+        <div class="contact-schedule">
+          <h4>Horarios de Atención</h4>
+          <div class="schedule-row"><span>Lunes — Sábado</span><span>8:00 AM — 8:00 PM</span></div>
+          <div class="schedule-row"><span>Domingos</span><span>9:00 AM — 2:00 PM</span></div>
+          <div class="schedule-row" style="color: var(--blue-500); font-weight: 700; margin-top: 6px;"><span>Emergencias</span><span>24 horas / 7 días</span></div>
+        </div>
+      </div>
+      <div class="contact-map animate-on-scroll fade-right">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.1!2d-74.2!3d4.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9!2sCl.+61a+Sur+%2394-23%2C+Bosa%2C+Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1700000000000!5m2!1ses!2sco" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="animate-on-scroll">
+      <h2>¿Tu mascota necesita atención?</h2>
+      <p>No esperes más. Agenda tu cita hoy y dale a tu compañero el cuidado que merece.</p>
+      <a href="https://wa.me/573115122628?text=Hola,%20quiero%20agendar%20una%20cita%20en%20Latidos" target="_blank">
+        <button class="btn-cta">
+          <svg style="display:inline; vertical-align:middle; margin-right:8px;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Agendar Cita Ahora
+        </button>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <img src="img/Logo.png" alt="Latidos" class="logo-img" style="height: 40px; width: auto;">
+        </div>
+        <p>Clínica veterinaria especializada en perros y gatos. Cuidado clínico de verdad para tu mejor amigo.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.89 2.89 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.14 15.7a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.05a8.27 8.27 0 004.77 1.51V7.15a4.83 4.83 0 01-1-.46z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#services">Cirugía Especializada</a></li>
+          <li><a href="#services">Ecografía Diagnóstica</a></li>
+          <li><a href="#services">Hospitalización</a></li>
+          <li><a href="#services">Consulta Veterinaria</a></li>
+          <li><a href="#services">Urgencias</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Clínica</h4>
+        <ul>
+          <li><a href="#about">Sobre Nosotros</a></li>
+          <li><a href="#team">Equipo Médico</a></li>
+          <li><a href="#installations">Instalaciones</a></li>
+          <li><a href="#testimonials">Testimonios</a></li>
+          <li><a href="#blog">Blog & Tips</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="tel:+573115122628">+57 311 512 2628</a></li>
+          <li><a href="mailto:contacto@latidos.com.co">contacto@latidos.com.co</a></li>
+          <li><a href="#contact">Bosa, Bogotá</a></li>
+          <li><a href="#faq">Preguntas Frecuentes</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Latidos Clínica Veterinaria. Todos los derechos reservados.</p>
+      <p>Diseñado con cuidado para quienes cuidan a sus mascotas.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/573115122628?text=Hola,%20quiero%20agendar%20una%20cita%20en%20Latidos" target="_blank" class="whatsapp-float">
+  <div class="whatsapp-tooltip">¡Escríbenos por WhatsApp!</div>
+  <svg viewBox="0 0 32 32" fill="white"><path d="M16.01 2.64C8.66 2.64 2.68 8.6 2.68 15.93a13.22 13.22 0 001.8 6.67L2.56 29.36l7.02-1.84a13.35 13.35 0 006.43 1.64c7.35 0 13.33-5.96 13.33-13.29S23.36 2.64 16.01 2.64zm0 24.32a11.06 11.06 0 01-5.64-1.54l-.4-.24-4.17 1.09 1.12-4.07-.27-.42a10.94 10.94 0 01-1.7-5.85c0-6.08 4.96-11.03 11.06-11.03 6.1 0 11.06 4.95 11.06 11.03 0 6.08-4.96 11.03-11.06 11.03zm6.06-8.27c-.33-.17-1.97-.97-2.27-1.08-.3-.11-.53-.17-.75.17-.22.33-.86 1.08-1.05 1.3-.19.22-.39.25-.72.08-.33-.17-1.41-.52-2.68-1.65-.99-.88-1.66-1.97-1.85-2.3-.19-.33-.02-.51.15-.68.15-.15.33-.39.5-.58.17-.19.22-.33.33-.55.11-.22.06-.42-.03-.58-.08-.17-.75-1.8-1.02-2.47-.27-.65-.55-.56-.75-.57h-.64c-.22 0-.58.08-.89.42-.3.33-1.16 1.13-1.16 2.77 0 1.63 1.19 3.21 1.36 3.43.17.22 2.34 3.58 5.68 5.02.79.34 1.41.55 1.9.7.8.25 1.52.22 2.1.13.64-.1 1.97-.8 2.25-1.58.28-.78.28-1.44.19-1.58-.08-.14-.3-.22-.64-.39z"/></svg>
+</a>
+
+<script>
+// Blog expandable toggle
+function toggleBlog(btn) {
+  const expandable = btn.nextElementSibling;
+  btn.classList.toggle('active');
+  expandable.classList.toggle('open');
+  btn.textContent = '';
+  const text = expandable.classList.contains('open') ? 'Leer menos' : 'Leer más';
+  btn.innerHTML = text + ' <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+}
+
+// Navbar scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  navLinks.classList.toggle('active');
+});
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navLinks.classList.remove('active');
+  });
+});
+
+// Scroll-triggered animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+// Animated counters
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const duration = 2200;
+  const start = performance.now();
+
+  function update(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target).toLocaleString() + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-number').forEach(el => counterObserver.observe(el));
+
+// FAQ toggle
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isActive = item.classList.contains('active');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+  if (!isActive) item.classList.add('active');
+}
+
+// Parallax on decorative elements
+window.addEventListener('scroll', () => {
+  const scrolled = window.pageYOffset;
+  document.querySelectorAll('.floating').forEach(el => {
+    el.style.transform = `translateY(${scrolled * 0.03}px)`;
+  });
+});
+</script>
+
+</body>
+</html>
