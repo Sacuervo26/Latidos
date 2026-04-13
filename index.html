@@ -1197,7 +1197,8 @@ ul { list-style: none; }
     transition: all 0.2s ease;
     border-left: 3px solid transparent;
   }
-  .nav-links a:hover, .nav-links a:active {
+  .nav-links a:hover, .nav-links a:active,
+  .nav-links a.nav-active {
     background: var(--blue-50);
     color: var(--blue-500) !important;
     border-left-color: var(--blue-500);
@@ -1980,8 +1981,10 @@ hamburger.addEventListener('click', (e) => {
   hamburger.classList.toggle('active');
   navLinks.classList.toggle('active');
 });
-navLinks.querySelectorAll('a').forEach(link => {
+navLinks.querySelectorAll('a:not(.nav-cta)').forEach(link => {
   link.addEventListener('click', () => {
+    navLinks.querySelectorAll('a').forEach(a => a.classList.remove('nav-active'));
+    link.classList.add('nav-active');
     hamburger.classList.remove('active');
     navLinks.classList.remove('active');
   });
