@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init:*)",
+      "Bash(gh auth:*)",
+      "Bash(git add:*)",
+      "Bash(npx vercel:*)",
+      "Bash(npx sharp-cli:*)",
+      "Bash(npm list:*)",
+      "Bash(git commit -m ':*)"
+    ]
+  }
+}
