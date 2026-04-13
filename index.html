@@ -50,6 +50,9 @@ body {
   overflow-x: hidden;
   line-height: 1.7;
 }
+html {
+  overflow-x: hidden;
+}
 
 h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--blue-900); line-height: 1.15; }
 h1 { font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 800; }
@@ -1112,12 +1115,15 @@ ul { list-style: none; }
 
 @media (max-width: 768px) {
   .navbar {
-    top: 8px;
-    width: calc(100% - 24px);
+    top: 10px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    transform: none;
     padding: 10px 16px;
   }
   .navbar.scrolled {
-    top: 8px;
+    top: 10px;
   }
   .nav-links {
     display: none;
